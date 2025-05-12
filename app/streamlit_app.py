@@ -7,7 +7,6 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from wordcloud import WordCloud
 from collections import Counter
-from konlpy.tag import Okt
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 import streamlit as st
@@ -38,17 +37,19 @@ def load_resources():
 
 model, tokenizer = load_resources()
 
-# ✅ 형태소 분석기 및 불용어
-okt = Okt()
+# ✅ 불용어 및 전처리 함수
 stopwords = ["의", "가", "이", "은", "들", "는", "좀", "잘", "걍", "과", "도", "를", "으로", "자", "에", "와", "한", "하다"]
 
 def clean_text(text):
-    text = re.sub(r"[^가-힣0-9\\s]", "", str(text))
-    text = re.sub(r"\\s+", " ", text).strip()
+    text = re.sub(r"[^가-힣0-9\s]", "", str(text))
+    text = re.sub(r"\s+", " ", text).strip()
     return text
 
+def tokenize(text):
+    return [word for word in clean_text(text).split() if word not in stopwords]
+
 def preprocess(text):
-    tokens = [word for word in okt.morphs(clean_text(text)) if word not in stopwords]
+    tokens = tokenize(text)
     seq = tokenizer.texts_to_sequences([" ".join(tokens)])
     return pad_sequences(seq, maxlen=30)
 
@@ -97,7 +98,7 @@ st.subheader("🧠 새 뉴스 감정 예측")
 user_input = st.text_input("뉴스 제목을 입력하세요:", key="sentiment_input")
 
 if user_input:
-    tokens = [word for word in okt.morphs(clean_text(user_input)) if word not in stopwords]
+    tokens = tokenize(user_input)
     oov_count = sum(1 for word in tokens if word not in tokenizer.word_index)
     oov_ratio = oov_count / len(tokens) if tokens else 0
 
