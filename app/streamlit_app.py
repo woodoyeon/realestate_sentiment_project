@@ -75,7 +75,7 @@ manual = pd.DataFrame([
 df = pd.concat([df, manual], ignore_index=True)
 
 # ✅ 감정 분포 시각화 (영문 라벨)
-st.subheader("📌 Sentiment Distribution")
+st.subheader("📌 감정 분포")
 label_counts = Counter(df["label"])
 full_counts = [label_counts.get(i, 0) for i in range(3)]
 fig, ax = plt.subplots()
@@ -85,7 +85,7 @@ ax.axis("equal")
 st.pyplot(fig)
 
 # ✅ 긍정 뉴스 워드클라우드
-st.subheader("📌 Word Cloud (Positive News)")
+st.subheader("📌 워드 클라우드 (긍정 뉴스)")
 if df[df["label"] == 1].shape[0] > 0:
     positive_text = " ".join(df[df["label"] == 1]["clean_title"])
     wc = WordCloud(font_path=FONT_PATH, background_color="white").generate(positive_text)
@@ -94,7 +94,7 @@ else:
     st.info("긍정 뉴스가 아직 없습니다.")
 
 # ✅ 사용자 입력 감정 예측
-st.subheader("🧠 Predict Sentiment from News Title")
+st.subheader("🧠 새 뉴스 감정 예측")
 user_input = st.text_input("뉴스 제목을 입력하세요:", key="sentiment_input")
 
 if user_input:
