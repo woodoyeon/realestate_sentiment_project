@@ -1,0 +1,15 @@
+# requirements.txt
+streamlit
+pandas
+matplotlib
+seaborn
+wordcloud
+tensorflow
+konlpy
+beautifulsoup4
+requests
+openpyxl
+python-dotenv
+scikit-learn
+selenium
+webdriver-manager
