@@ -8,10 +8,6 @@ __pycache__/
 # 환경변수
 .env
 
-# 모델 및 결과파일
-*.pkl
-*.h5
-*.keras
 
 # 기타 무시할 파일
 .DS_Store
