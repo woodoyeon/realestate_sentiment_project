@@ -13,3 +13,4 @@ python-dotenv
 scikit-learn
 selenium
 webdriver-manager
+h5py
